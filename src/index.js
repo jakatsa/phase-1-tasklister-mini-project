@@ -1,45 +1,23 @@
 document.addEventListener("DOMContentLoaded", () => {
-  // your code here
-  const inputField = document.getElementById("new-task-description");
-  const formElement = document.querySelector("form");
-  formElement.addEventListener("submit", (e) => {
-    let newtask = inputField.value;
-
+  const form = document.querySelector("form");
+  form.addEventListener("submit", (e) => {
     e.preventDefault();
-    if (newtask.length === 0) {
-      alert("Task cannot be empty");
-    } else {
-      handleToDo(newtask);
-    }
-    formElement.reset();
+    buildToDo(e.target.new_task_description.value);
+    form.reset();
   });
 });
+function buildToDo(todo) {
+  let paragraph = document.createElement("p");
+  let button = document.createElement("button");
+  button.textContent = "x";
+  paragraph.textContent = todo;
+  paragraph.appendChild(button);
+  console.log(paragraph);
 
-function css(element, style) {
-  for (const property in style) element.style[property] = style[property];
-}
+  const tasks = document.querySelector("#tasks");
+  tasks.appendChild(paragraph);
 
-function handleToDo(newtask) {
-  let listItem = document.createElement("li");
-  let btn = document.createElement("button");
-
-  css(btn, {
-    "background-color": "yellow",
-    color: "red",
-    background: "red",
-    color: "#ffffff",
-    padding: "6px",
-    margin: "4px",
-    "font-size": "12px",
+  button.addEventListener("click", () => {
+    tasks.removeChild(paragraph);
   });
-
-  btn.addEventListener("click", handleDelete);
-  btn.textContent = "X Remove";
-  listItem.innerText = `${newtask}`;
-  listItem.appendChild(btn);
-  document.querySelector("#tasks").appendChild(listItem);
-}
-
-function handleDelete(e) {
-  e.target.parentNode.remove();
 }
